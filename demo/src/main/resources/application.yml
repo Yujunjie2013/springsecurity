@@ -1,0 +1,6 @@
+org:
+  junjie:
+    browser:
+#配置后将使用自定义的登录页
+#      loginPage: /demo-signIn.html
+      loginType: REDIRECT

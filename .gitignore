@@ -1,0 +1,4 @@
+# Project exclude paths
+/browser/target/
+/core/target/
+/demo/target/
