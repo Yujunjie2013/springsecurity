@@ -1,6 +1,19 @@
 org:
   junjie:
+    code:
+      image:
+        length: 3
+        #需要图形验证码拦截的url，使用逗号分隔
+        url: /user,/user/*
     browser:
-#配置后将使用自定义的登录页
-#      loginPage: /demo-signIn.html
-      loginType: REDIRECT
+      #配置后将使用自定义的登录页
+      #      loginPage: /demo-signIn.html
+      loginType: JSON
+
+#数据库连接配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/security_demo?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: 123456

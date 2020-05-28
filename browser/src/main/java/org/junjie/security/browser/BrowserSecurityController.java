@@ -47,8 +47,11 @@ public class BrowserSecurityController {
             logger.info("引发跳转的URL:" + target);
             if (StringUtils.endsWithIgnoreCase(target, ".html")) {
                 redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getLoginPage());
+                logger.info("返回一个null");
+                return null;
             }
         }
+        response.setContentType("application/json;charset=UTF-8");
         return new SimpleResponse("访问的服务需要身份认证，请引导用户到登录页");
     }
 }

@@ -1,6 +1,7 @@
 package org.junjie.security.browser.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junjie.security.browser.support.SimpleResponse;
 import org.junjie.security.core.properties.LoginType;
 import org.junjie.security.core.properties.SecurityProperties;
 import org.slf4j.Logger;
@@ -38,11 +39,11 @@ public class BrowserAuthenticationFailureHandler extends SimpleUrlAuthentication
      */
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        logger.info("登录失败:" + exception.getMessage());
+        logger.info("发生异常:" + exception.getMessage());
         if (LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())) {
             response.setContentType("application/json;charset=UTF-8");
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            response.getWriter().write(objectMapper.writeValueAsString(exception));
+            response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
         } else {
             super.onAuthenticationFailure(request, response, exception);
         }

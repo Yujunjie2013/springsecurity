@@ -7,4 +7,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 public class SecurityProperties {
     private BrowserProperties browser = new BrowserProperties();
+    /**
+     * 验证码（包含短信验证，图形验证）
+     */
+    private ValidateCodeProperties code = new ValidateCodeProperties();
 }
