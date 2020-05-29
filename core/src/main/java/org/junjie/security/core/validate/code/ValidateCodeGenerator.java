@@ -12,5 +12,5 @@ public interface ValidateCodeGenerator {
      * @param servletWebRequest
      * @return
      */
-    ImageCode generate(ServletWebRequest servletWebRequest);
+    ValidateCode generate(ServletWebRequest servletWebRequest);
 }
