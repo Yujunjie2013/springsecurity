@@ -11,4 +11,6 @@ public class SecurityProperties {
      * 验证码（包含短信验证，图形验证）
      */
     private ValidateCodeProperties code = new ValidateCodeProperties();
+
+    private SocialProperties social = new SocialProperties();
 }
