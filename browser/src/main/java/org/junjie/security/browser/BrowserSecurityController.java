@@ -2,6 +2,7 @@ package org.junjie.security.browser;
 
 import org.apache.commons.lang.StringUtils;
 import org.junjie.security.browser.support.SimpleResponse;
+import org.junjie.security.core.properties.SecurityConstants;
 import org.junjie.security.core.properties.SecurityProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,7 @@ public class BrowserSecurityController {
      * @param response
      * @return
      */
-    @RequestMapping("/authentication/require")
+    @RequestMapping(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
         SecurityContextHolder.getContext().getAuthentication();

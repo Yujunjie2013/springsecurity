@@ -1,5 +1,6 @@
 package org.junjie.security.core.authentication.mobile;
 
+import org.junjie.security.core.properties.SecurityConstants;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -11,11 +12,14 @@ import org.springframework.util.Assert;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 手机验证码登录校验器
+ */
 public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
     // ~ Static fields/initializers
     // =====================================================================================
 
-    public static final String FROM_MOBILE_KEY = "mobile";
+    public static final String FROM_MOBILE_KEY = SecurityConstants.DEFAULT_PARAMETER_NAME_MOBILE;
 
     private String mobileParameter = FROM_MOBILE_KEY;
     private boolean postOnly = true;
@@ -24,7 +28,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
     // ===================================================================================================
 
     public SmsCodeAuthenticationFilter() {
-        super(new AntPathRequestMatcher("/authentication/mobile", "POST"));
+        super(new AntPathRequestMatcher(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE, "POST"));
     }
 
     // ~ Methods

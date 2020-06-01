@@ -1,6 +1,7 @@
 package org.junjie.security.core.validate.code;
 
 import org.junjie.security.core.properties.SecurityProperties;
+import org.junjie.security.core.validate.code.image.ImageCodeGenerator;
 import org.junjie.security.core.validate.code.sms.DefaultSmsCodeSender;
 import org.junjie.security.core.validate.code.sms.SmsCodeSender;
 import org.springframework.beans.factory.annotation.Autowired;

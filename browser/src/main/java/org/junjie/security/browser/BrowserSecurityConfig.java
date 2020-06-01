@@ -62,7 +62,7 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                 .and()
                 .authorizeRequests() // 授权配置
                 .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
-                        SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM,
+                        SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM,
                         securityProperties.getBrowser().getLoginPage(),
                         SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*")
                 .permitAll()//表示跳转到登录页面的请求不被拦截

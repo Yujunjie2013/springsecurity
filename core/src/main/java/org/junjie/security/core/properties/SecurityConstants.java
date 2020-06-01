@@ -4,7 +4,7 @@
 package org.junjie.security.core.properties;
 
 /**
- * @author zhailiang
+ * 常量配置类
  *
  */
 public interface SecurityConstants {
@@ -34,9 +34,8 @@ public interface SecurityConstants {
     /**
      * 默认登录页面
      *
-     * @see SecurityController
      */
-    String DEFAULT_SIGN_IN_PAGE_URL = "/imooc-signIn.html";
+    String DEFAULT_SIGN_IN_PAGE_URL = "/imooc-sign.html";
     /**
      * 验证图片验证码时，http请求中默认的携带图片验证码信息的参数的名称
      */
@@ -66,8 +65,4 @@ public interface SecurityConstants {
      */
     String DEFAULT_SOCIAL_USER_INFO_URL = "/social/user";
 
-    /**
-     * 默认的用户名密码登录请求处理url
-     */
-    String DEFAULT_LOGIN_PROCESSING_URL_FORM = "/authentication/form";
 }

@@ -1,6 +1,8 @@
-package org.junjie.security.core.validate.code;
+package org.junjie.security.core.validate.code.image;
 
 import org.junjie.security.core.properties.SecurityProperties;
+import org.junjie.security.core.validate.code.ImageCode;
+import org.junjie.security.core.validate.code.ValidateCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;

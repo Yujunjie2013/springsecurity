@@ -72,8 +72,8 @@ public abstract class AbstractValidateCodeProcessor<V extends ValidateCode> impl
     @SuppressWarnings("unchecked")
     @Override
     public void validate(ServletWebRequest servletWebRequest) {
-        ValidateCodeType codeType = getValidateCodeType(servletWebRequest);
-        String sessionKey = getSessionKey(servletWebRequest);
+        ValidateCodeType codeType = getValidateCodeType();
+        String sessionKey = getSessionKey();
 //        V codeInSession = (V) validateCodeRepository.get(servletWebRequest, codeType);
         V codeInSession = (V) sessionStrategy.getAttribute(servletWebRequest, sessionKey);
 
@@ -110,11 +110,10 @@ public abstract class AbstractValidateCodeProcessor<V extends ValidateCode> impl
     /**
      * 根据请求的url获取校验码的类型
      *
-     * @param request
-     * @return
+     * @return 验证码类型
      */
-    private ValidateCodeType getValidateCodeType(ServletWebRequest request) {
-        //getClass().getSimpleName()取到的值可能为SmsCodeProcessor、ImageCodeProcessor
+    private ValidateCodeType getValidateCodeType() {
+        //getClass().getSimpleName()取到的值可能为SmsValidateCodeProcessor、ImageValidateCodeProcessor
         //所以这里返回的值可能是SMS、IMAGE
         String type = StringUtils.substringBefore(getClass().getSimpleName(), "ValidateCodeProcessor");
         return ValidateCodeType.valueOf(type.toUpperCase());
@@ -123,10 +122,9 @@ public abstract class AbstractValidateCodeProcessor<V extends ValidateCode> impl
     /**
      * 构建验证码放入session时的key
      *
-     * @param request
-     * @return
+     * @return sessionKey
      */
-    private String getSessionKey(ServletWebRequest request) {
-        return SESSION_KEY_PREFIX + getValidateCodeType(request).toString().toUpperCase();
+    private String getSessionKey() {
+        return SESSION_KEY_PREFIX + getValidateCodeType().toString().toUpperCase();
     }
 }
