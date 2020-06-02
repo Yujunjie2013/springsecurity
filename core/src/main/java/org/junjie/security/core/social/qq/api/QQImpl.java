@@ -14,7 +14,7 @@ public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
     private String openId;
     private static final String URL_GET_OPENID = "https://graph.qq.com/oauth2.0/me?access_token=%s";
     private static final String URL_GET_USER_INFO = "https://graph.qq.com/user/get_user_info?oauth_consumer_key=%s&openid=%s";
-    private ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     public QQImpl(String accessToken, String appId) {
         //父类1个参数的构造方法是AUTHORIZATION_HEADER，将token放在请求头中，但是qq的是放在请求参数中的，所以这里要用
@@ -24,7 +24,7 @@ public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
         String url = String.format(URL_GET_OPENID, accessToken);
         String result = getRestTemplate().getForObject(url, String.class);
         logger.info("获取到openId:" + result);
-        openId = StringUtils.substringBetween(result, "\"openid\":", "}");
+        openId = StringUtils.substringBetween(result, "\"openid\":\"", "\"}");
     }
 
     @Override
@@ -35,9 +35,9 @@ public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
         QQUserInfo qqUserInfo = null;
         try {
             qqUserInfo = objectMapper.readValue(result, QQUserInfo.class);
+            qqUserInfo.setOpenId(openId);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            throw new RuntimeException("获取用户信息失败");
+            throw new RuntimeException("获取用户信息失败:" + e);
         }
 
         return qqUserInfo;

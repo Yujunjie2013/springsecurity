@@ -2,11 +2,12 @@ package org.junjie.security.core.social.qq.connet;
 
 import org.junjie.security.core.social.qq.api.QQ;
 import org.junjie.security.core.social.qq.api.QQImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
-import org.springframework.social.oauth2.OAuth2Operations;
-import org.springframework.social.oauth2.OAuth2Template;
 
 public class QQServiceProvider extends AbstractOAuth2ServiceProvider<QQ> {
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     private String appId;
 
@@ -19,12 +20,14 @@ public class QQServiceProvider extends AbstractOAuth2ServiceProvider<QQ> {
      * @param oauth2Operations the OAuth2Operations template for conducting the OAuth 2 flow with the provider.
      */
     public QQServiceProvider(String appId, String appSecret) {
-        super(new OAuth2Template(appId, appSecret, URL_AUTHORIZZE, URL_ACCESS_TOKEN));
-        this.appId=appId;
+        super(new QQOAuth2Template(appId, appSecret, URL_AUTHORIZZE, URL_ACCESS_TOKEN));
+        this.appId = appId;
+        logger.info("QQServiceProvider开始实例化----appId:" + appId);
     }
 
     @Override
     public QQ getApi(String accessToken) {
+        logger.info("getApi获取API" + accessToken);
         return new QQImpl(accessToken, appId);
     }
 }

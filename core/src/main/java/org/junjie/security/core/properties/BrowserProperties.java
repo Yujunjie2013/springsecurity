@@ -5,6 +5,10 @@ import lombok.Data;
 @Data
 public class BrowserProperties {
     /**
+     * 默认注册页
+     */
+    private String signUpUrl = "/imooc-signUp.html";
+    /**
      * 登录页面，如果用户没有配置，则使用默认的登录页面/imooc-sign.html
      */
     private String loginPage = SecurityConstants.DEFAULT_SIGN_IN_PAGE_URL;

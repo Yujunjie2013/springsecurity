@@ -69,7 +69,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                 .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
                         SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM,
                         securityProperties.getBrowser().getLoginPage(),
-                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*")
+                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
+                        securityProperties.getBrowser().getSignUpUrl(),
+                        "/user/regist")
                 .permitAll()//表示跳转到登录页面的请求不被拦截
                 .anyRequest()// 所有请求
                 .authenticated()

@@ -1,3 +1,5 @@
+
+
 org:
   junjie:
     code:
@@ -9,11 +11,15 @@ org:
       #配置后将使用自定义的登录页
       #      loginPage: /demo-signIn.html
       loginType: JSON
+      signUpUrl: /demo-signUp.html
     social:
+      filterProcessesUrl: /qqLogin
       qq:
-        appId: 101386962
-        appSecret: 2a0f820407df400b84a854d054be8b6a
-        providerId: qq
+#        appId: 101386962
+        appId: 101878187
+        appSecret: 206a7ec62e0fc929eb00b5fc9f3d7415
+#        appSecret: 2a0f820407df400b84a854d054be8b6a
+        providerId: callback.do
 #数据库连接配置
 spring:
   datasource:
@@ -21,3 +27,5 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/security_demo?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
     username: root
     password: 123456
+server:
+  port: 80

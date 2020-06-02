@@ -2,6 +2,7 @@ package org.junjie.security.browser;
 
 import org.apache.commons.lang.StringUtils;
 import org.junjie.security.browser.support.SimpleResponse;
+import org.junjie.security.browser.support.SocialUserInfo;
 import org.junjie.security.core.properties.SecurityConstants;
 import org.junjie.security.core.properties.SecurityProperties;
 import org.slf4j.Logger;
@@ -14,9 +15,13 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.web.ProviderSignInUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +35,9 @@ public class BrowserSecurityController {
 
     @Autowired
     private SecurityProperties securityProperties;
+
+    @Autowired
+    private ProviderSignInUtils providerSignInUtils;
 
     /**
      * 但需要身份认证时，跳转到这里
@@ -55,4 +63,17 @@ public class BrowserSecurityController {
         response.setContentType("application/json;charset=UTF-8");
         return new SimpleResponse("访问的服务需要身份认证，请引导用户到登录页");
     }
+
+
+    @GetMapping("/social/user")
+    public SocialUserInfo getSocialUserInfo(HttpServletRequest request, HttpServletResponse response) {
+        SocialUserInfo userInfo = new SocialUserInfo();
+        Connection<?> connectionFromSession = providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request, response));
+        userInfo.setProviderId(connectionFromSession.getKey().getProviderId());
+        userInfo.setProviderUserId(connectionFromSession.getKey().getProviderUserId());
+        userInfo.setNickName(connectionFromSession.getDisplayName());
+        userInfo.setHeadImg(connectionFromSession.getImageUrl());
+        return userInfo;
+    }
+
 }
