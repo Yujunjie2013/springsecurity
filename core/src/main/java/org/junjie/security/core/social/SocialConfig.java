@@ -1,7 +1,6 @@
 package org.junjie.security.core.social;
 
 import org.junjie.security.core.properties.SecurityProperties;
-import org.junjie.security.core.social.jdbc.MyJdbcConnectionRepository;
 import org.junjie.security.core.social.jdbc.MyJdbcUsersConnectionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +17,6 @@ import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UsersConnectionRepository;
-import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.security.SpringSocialConfigurer;
 import org.springframework.util.Assert;
@@ -68,7 +66,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
 
         @Override
         public String getUserId() {
-            logger.info("SecurityContextUserIdSource-->getUserId()");
+            logger.info("获取ID-->SecurityContextUserIdSource#getUserId()");
             SecurityContext context = SecurityContextHolder.getContext();
             Authentication authentication = context.getAuthentication();
             Assert.state(authentication != null, "Unable to get a ConnectionRepository: no user signed in");

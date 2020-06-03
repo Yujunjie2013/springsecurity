@@ -27,7 +27,7 @@ public class QQServiceProvider extends AbstractOAuth2ServiceProvider<QQ> {
 
     @Override
     public QQ getApi(String accessToken) {
-        logger.info("getApi获取API" + accessToken);
+        logger.info("getApi获取传入token:" + accessToken);
         return new QQImpl(accessToken, appId);
     }
 }

@@ -18,6 +18,14 @@
 				<td><input type="password" name="password"></td>
 			</tr>
 			<tr>
+				<td>图形验证码:</td>
+				<td>
+					<input type="text" name="imageCode">
+					<!--        验证码接口定义在core包的ValidateCodeController里,同时需要添加不认证的配置        -->
+					<img src="/code/image?width=160&height=20">
+				</td>
+			</tr>
+			<tr>
 				<td colspan="2">
 					<button type="submit" name="type" value="regist">注册</button>
 					<button type="submit" name="type" value="binding">绑定</button>

@@ -1,5 +1,3 @@
-
-
 org:
   junjie:
     code:
@@ -11,8 +9,10 @@ org:
       #配置后将使用自定义的登录页
       #      loginPage: /demo-signIn.html
       loginType: JSON
+#      授权登录后如果没有注册用户，且没有实现ConnectionSignUp则会默认跳转到这里,如果ConnectionSignUp有实现类则不会跳转
       signUpUrl: /demo-signUp.html
     social:
+#      qq授权登录处理接口,在自定义的JunjieSpringSocialConfiger#postProcess中进行添加
       filterProcessesUrl: /qqLogin
       qq:
 #        appId: 101386962

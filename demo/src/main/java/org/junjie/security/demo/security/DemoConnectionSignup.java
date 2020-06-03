@@ -19,7 +19,7 @@ public class DemoConnectionSignup implements ConnectionSignUp {
         //这里为了简单处理，就直接返回用户名
         String displayName = connection.getDisplayName();
         String userId = RandomStringUtils.random(8, false, true);
-        log.info("用户名称:" + displayName + "---userId:" + userId);
+//        log.info("用户名称:" + displayName + "---userId:" + userId);
         return userId;
     }
 }
