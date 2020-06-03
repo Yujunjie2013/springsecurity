@@ -1,6 +1,8 @@
 package org.junjie.security.core.social;
 
 import org.junjie.security.core.properties.SecurityProperties;
+import org.junjie.security.core.social.jdbc.MyJdbcConnectionRepository;
+import org.junjie.security.core.social.jdbc.MyJdbcUsersConnectionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
 
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
-        JdbcUsersConnectionRepository jdbcUsersConnectionRepository = new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());
+        MyJdbcUsersConnectionRepository jdbcUsersConnectionRepository = new MyJdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());
         if (connectionSignUp != null) {
             jdbcUsersConnectionRepository.setConnectionSignUp(connectionSignUp);
         }

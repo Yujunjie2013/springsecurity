@@ -29,9 +29,8 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
      */
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        logger.info("表单登录用户名:" + userName);
         String encode = passwordEncoder.encode("123456");
-        System.out.println("数据库密码是:" + encode);
+        logger.info("表单登录用户名:" + userName + "\n数据库密码是:" + encode);
         return new User(userName, encode, true, true,
                 true, true,
                 AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
@@ -46,9 +45,8 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
      */
     @Override
     public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
-        logger.info("社交登录Id:" + userId);
         String encode = passwordEncoder.encode("123456");
-        System.out.println("数据库密码是:" + encode);
+        logger.info("社交登录Id:" + userId + "\n数据库密码是:" + encode);
         return new SocialUser(userId, encode, true, true,
                 true, true,
                 AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));

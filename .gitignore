@@ -2,3 +2,5 @@
 /browser/target/
 /core/target/
 /demo/target/
+/core/core.iml
+/browser/browser.iml
