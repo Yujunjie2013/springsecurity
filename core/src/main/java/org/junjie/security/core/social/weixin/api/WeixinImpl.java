@@ -7,7 +7,7 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.oauth2.TokenStrategy;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -15,7 +15,8 @@ import java.util.List;
  */
 public class WeixinImpl extends AbstractOAuth2ApiBinding implements Weixin {
 
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
+//    private ObjectMapper objectMapper = new ObjectMapper();
     /**
      * 获取用户信息的url
      */
@@ -34,7 +35,7 @@ public class WeixinImpl extends AbstractOAuth2ApiBinding implements Weixin {
     protected List<HttpMessageConverter<?>> getMessageConverters() {
         List<HttpMessageConverter<?>> messageConverters = super.getMessageConverters();
         messageConverters.remove(0);
-        messageConverters.add(new StringHttpMessageConverter(Charset.forName("UTF-8")));
+        messageConverters.add(new StringHttpMessageConverter(StandardCharsets.UTF_8));
         return messageConverters;
     }
 
@@ -48,6 +49,13 @@ public class WeixinImpl extends AbstractOAuth2ApiBinding implements Weixin {
         if (StringUtils.contains(response, "errcode")) {
             return null;
         }
+//        try {
+//            WeixinUserInfo weixinUserInfo = objectMapper.readValue(response, WeixinUserInfo.class);
+//            return weixinUserInfo;
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
         return gson.fromJson(response, WeixinUserInfo.class);
     }
 
