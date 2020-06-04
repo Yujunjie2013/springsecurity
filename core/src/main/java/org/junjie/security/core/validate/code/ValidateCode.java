@@ -2,10 +2,11 @@ package org.junjie.security.core.validate.code;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-public class ValidateCode {
+public class ValidateCode implements Serializable {
 
     private static final long serialVersionUID = 1588203828504660925L;
     private String code;

@@ -38,7 +38,9 @@ public abstract class AbstractValidateCodeProcessor<V extends ValidateCode> impl
      * @param validateCode 验证码
      */
     protected void save(ServletWebRequest request, V validateCode) {
-        sessionStrategy.setAttribute(request, SESSION_KEY_PREFIX + getProcessorType(request).toUpperCase(), validateCode);
+        //不论传入的是图形验证码还是短信验证码都只存储验证码和时间
+        ValidateCode code=new ValidateCode(validateCode.getCode(),validateCode.getExpireTime());
+        sessionStrategy.setAttribute(request, SESSION_KEY_PREFIX + getProcessorType(request).toUpperCase(), code);
     }
 
     /**
