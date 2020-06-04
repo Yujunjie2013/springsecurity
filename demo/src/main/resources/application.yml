@@ -11,6 +11,8 @@ org:
       loginType: JSON
 #      授权登录后如果没有注册用户，且没有实现ConnectionSignUp则会默认跳转到这里,如果ConnectionSignUp有实现类则不会跳转
       signUpUrl: /demo-signUp.html
+      #退出成功时跳转的url
+      signOutUrl: /demo-logout.html
     social:
 #      qq授权登录处理接口,在自定义的JunjieSpringSocialConfiger#postProcess中进行添加
       filterProcessesUrl: /qqLogin
@@ -38,4 +40,5 @@ server:
   port: 80
   servlet:
     session:
-      timeout: 60
+#      这里单位是秒
+      timeout: 600

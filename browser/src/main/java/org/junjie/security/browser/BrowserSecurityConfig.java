@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.session.InvalidSessionStrategy;
@@ -45,6 +46,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
     @Autowired
     private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
+
+    @Autowired
+    private LogoutSuccessHandler logoutSuccessHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -82,6 +86,12 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                 .expiredSessionStrategy(sessionInformationExpiredStrategy)//session最大并发处理策略
                 .and()
                 .and()
+                .logout()
+                .logoutUrl("/signOut")
+//                .logoutSuccessUrl("/imooc-logout.html")
+                .logoutSuccessHandler(logoutSuccessHandler)//跟logoutSuccessUrl二者取其一
+                .deleteCookies("JSESSIONID")
+                .and()
                 .authorizeRequests() // 授权配置
                 .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
                         SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM,
@@ -90,6 +100,7 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                         securityProperties.getBrowser().getSignUpUrl(),
                         securityProperties.getBrowser().getSession().getSessionInvalidUrl() + ".json",
                         securityProperties.getBrowser().getSession().getSessionInvalidUrl() + ".html",
+                        securityProperties.getBrowser().getSignOutUrl(),
                         "/user/regist")
                 .permitAll()//表示跳转到登录页面的请求不被拦截
                 .anyRequest()// 所有请求
