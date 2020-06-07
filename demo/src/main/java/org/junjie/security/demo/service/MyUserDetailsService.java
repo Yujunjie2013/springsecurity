@@ -33,7 +33,7 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
         logger.info("表单登录用户名:" + userName + "---数据库密码是:" + encode);
         return new User(userName, encode, true, true,
                 true, true,
-                AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+                AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER"));
     }
 
     /**
@@ -49,6 +49,6 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
         logger.info("社交登录Id:" + userId + "---数据库密码是:" + encode);
         return new SocialUser(userId, encode, true, true,
                 true, true,
-                AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+                AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER"));
     }
 }

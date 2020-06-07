@@ -26,7 +26,7 @@ import java.util.Set;
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
     //失败处理器
     @Autowired
-    private AuthenticationFailureHandler failureHandler;
+    private AuthenticationFailureHandler authenticationFailureHandler;
     //系统中的校验码处理器
     @Autowired
     private ValidateCodeProcessorHolder validateCodeProcessorHolder;
@@ -73,7 +73,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
                         .validate(new ServletWebRequest(httpServletRequest, httpServletResponse));
                 logger.info("验证码校验通过");
             } catch (ValidateCodeException e) {
-                failureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, e);
+                authenticationFailureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, e);
                 return;
             }
         }

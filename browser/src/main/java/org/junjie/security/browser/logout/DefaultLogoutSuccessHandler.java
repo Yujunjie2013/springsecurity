@@ -2,7 +2,7 @@ package org.junjie.security.browser.logout;
 
 import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
-import org.junjie.security.browser.support.SimpleResponse;
+import org.junjie.security.core.support.SimpleResponse;
 import org.junjie.security.core.properties.SecurityProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

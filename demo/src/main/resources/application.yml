@@ -42,3 +42,11 @@ server:
     session:
 #      这里单位是秒
       timeout: 600
+#debug: true
+
+security:
+  oauth2:
+    client:
+      client-id: imooc
+      client-secret: imoocsecret
+      registered-redirect-uri: http://example.com
