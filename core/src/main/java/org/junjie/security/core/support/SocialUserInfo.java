@@ -1,4 +1,4 @@
-package org.junjie.security.browser.support;
+package org.junjie.security.core.support;
 
 import lombok.Data;
 

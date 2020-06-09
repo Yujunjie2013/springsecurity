@@ -38,6 +38,8 @@ public class SocialConfig extends SocialConfigurerAdapter {
 
     @Autowired(required = false)
     private ConnectionSignUp connectionSignUp;
+    @Autowired(required = false)
+    private SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor;
 
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
@@ -51,7 +53,9 @@ public class SocialConfig extends SocialConfigurerAdapter {
 
     @Bean
     public SpringSocialConfigurer springSocialConfigurer() {
-        return new JunjieSpringSocialConfiger(securityProperties.getBrowser().getSignUpUrl(), securityProperties.getSocial().getFilterProcessesUrl());
+        JunjieSpringSocialConfiger junjieSpringSocialConfiger = new JunjieSpringSocialConfiger(securityProperties.getBrowser().getSignUpUrl(), securityProperties.getSocial().getFilterProcessesUrl());
+        junjieSpringSocialConfiger.setSocialAuthenticationFilterPostProcessor(socialAuthenticationFilterPostProcessor);
+        return junjieSpringSocialConfiger;
     }
 
     @Bean

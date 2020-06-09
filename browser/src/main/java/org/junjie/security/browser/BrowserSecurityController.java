@@ -2,7 +2,7 @@ package org.junjie.security.browser;
 
 import org.apache.commons.lang.StringUtils;
 import org.junjie.security.core.support.SimpleResponse;
-import org.junjie.security.browser.support.SocialUserInfo;
+import org.junjie.security.core.support.SocialUserInfo;
 import org.junjie.security.core.properties.SecurityConstants;
 import org.junjie.security.core.properties.SecurityProperties;
 import org.slf4j.Logger;

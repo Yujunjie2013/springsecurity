@@ -3,8 +3,6 @@ package org.junjie.security.core.validate.code.impl;
 import org.apache.commons.lang.StringUtils;
 import org.junjie.security.core.validate.code.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
-import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -13,13 +11,12 @@ import java.io.IOException;
 import java.util.Map;
 
 public abstract class AbstractValidateCodeProcessor<V extends ValidateCode> implements ValidateCodeProcessor {
-    private final SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
     //收集系统中所有ValidateCodeGenerator接口的实现,名字是key，实例是value放入map
     @Autowired
     private Map<String, ValidateCodeGenerator> validateCodeGenerators;
 
-//    @Autowired
-//    private ValidateCodeRepository validateCodeRepository;
+    @Autowired
+    private ValidateCodeRepository validateCodeRepository;
 
     @Override
     public void create(ServletWebRequest request) throws Exception {
@@ -39,8 +36,8 @@ public abstract class AbstractValidateCodeProcessor<V extends ValidateCode> impl
      */
     protected void save(ServletWebRequest request, V validateCode) {
         //不论传入的是图形验证码还是短信验证码都只存储验证码和时间
-        ValidateCode code=new ValidateCode(validateCode.getCode(),validateCode.getExpireTime());
-        sessionStrategy.setAttribute(request, SESSION_KEY_PREFIX + getProcessorType(request).toUpperCase(), code);
+        ValidateCode code = new ValidateCode(validateCode.getCode(), validateCode.getExpireTime());
+        validateCodeRepository.save(request, code, getValidateCodeType());
     }
 
     /**
@@ -76,8 +73,8 @@ public abstract class AbstractValidateCodeProcessor<V extends ValidateCode> impl
     public void validate(ServletWebRequest servletWebRequest) {
         ValidateCodeType codeType = getValidateCodeType();
         String sessionKey = getSessionKey();
-//        V codeInSession = (V) validateCodeRepository.get(servletWebRequest, codeType);
-        V codeInSession = (V) sessionStrategy.getAttribute(servletWebRequest, sessionKey);
+        V codeInSession = (V) validateCodeRepository.get(servletWebRequest, codeType);
+//        V codeInSession = (V) sessionStrategy.getAttribute(servletWebRequest, sessionKey);
 
         String codeInRequest;
         try {
@@ -96,8 +93,7 @@ public abstract class AbstractValidateCodeProcessor<V extends ValidateCode> impl
         }
 
         if (codeInSession.isExpried()) {
-//            validateCodeRepository.remove(servletWebRequest, codeType);
-            sessionStrategy.removeAttribute(servletWebRequest, sessionKey);
+            validateCodeRepository.remove(servletWebRequest, codeType);
             throw new ValidateCodeException(codeType + "验证码已过期");
         }
 
@@ -105,8 +101,7 @@ public abstract class AbstractValidateCodeProcessor<V extends ValidateCode> impl
             throw new ValidateCodeException(codeType + "验证码不匹配");
         }
 
-//        validateCodeRepository.remove(servletWebRequest, codeType);
-        sessionStrategy.removeAttribute(servletWebRequest, sessionKey);
+        validateCodeRepository.remove(servletWebRequest, codeType);
     }
 
     /**
