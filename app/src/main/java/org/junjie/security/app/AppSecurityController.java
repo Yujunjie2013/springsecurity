@@ -22,6 +22,13 @@ public class AppSecurityController {
     @Autowired
     private ProviderSignInUtils providerSignInUtils;
 
+    /**
+     * 如果是app授权登录，但是这个用户是第一次登录在系统中不存在，这时会被转发到这里
+     *
+     * @param request
+     * @param response
+     * @return
+     */
     @GetMapping("/social/signUp")
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public SocialUserInfo getSocialUserInfo(HttpServletRequest request, HttpServletResponse response) {
