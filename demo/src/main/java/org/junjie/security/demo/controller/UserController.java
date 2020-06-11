@@ -1,8 +1,11 @@
 package org.junjie.security.demo.controller;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.junjie.security.app.social.impl.AppSignUpUtils;
+import org.junjie.security.core.properties.SecurityProperties;
 import org.junjie.security.demo.dto.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +20,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.StandardCharsets;
 
 @RestController
 @RequestMapping("/user")
@@ -27,9 +31,17 @@ public class UserController {
     private ProviderSignInUtils providerSignInUtils;
     @Autowired
     private AppSignUpUtils appSignUpUtils;
+    @Autowired
+    private SecurityProperties securityProperties;
 
     @GetMapping("/me")
     public Object getCurrentUser(Authentication user, HttpServletRequest request) {
+        String header = request.getHeader("Authorization");
+        String token = StringUtils.substringAfter(header, "bearer ");
+        Claims claims = Jwts.parser().setSigningKey(securityProperties.getOauth2().getJwtSigningKey().getBytes(StandardCharsets.UTF_8)).parseClaimsJws(token).getBody();
+        //取出自定义数据
+        String company = (String) claims.get("company");
+        logger.info("自定义数据是:" + company);
         return user;
     }
 

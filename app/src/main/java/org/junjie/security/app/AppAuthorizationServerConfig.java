@@ -14,7 +14,12 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+
+import java.util.ArrayList;
 
 @Configuration
 @EnableAuthorizationServer
@@ -30,6 +35,10 @@ public class AppAuthorizationServerConfig extends AuthorizationServerConfigurerA
     private SecurityProperties securityProperties;
     @Autowired
     private TokenStore redisTokenStore;
+    @Autowired(required = false)
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
+    @Autowired(required = false)
+    private TokenEnhancer jwtTokenEnhancer;
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
@@ -39,6 +48,16 @@ public class AppAuthorizationServerConfig extends AuthorizationServerConfigurerA
         endpoints.authenticationManager(authenticationManager)
                 .tokenStore(redisTokenStore)
                 .userDetailsService(userDetailsService);
+        if (jwtAccessTokenConverter != null && jwtTokenEnhancer != null) {
+            TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+            ArrayList<TokenEnhancer> enhancers = new ArrayList<>();
+            enhancers.add(jwtTokenEnhancer);
+            enhancers.add(jwtAccessTokenConverter);
+            tokenEnhancerChain.setTokenEnhancers(enhancers);
+
+            endpoints.tokenEnhancer(tokenEnhancerChain)
+                    .accessTokenConverter(jwtAccessTokenConverter);
+        }
     }
 
 //    @Override
@@ -58,6 +77,7 @@ public class AppAuthorizationServerConfig extends AuthorizationServerConfigurerA
                         .secret(passwordEncoder.encode(config.getClientSecret()))//这里一定要这要用
                         .accessTokenValiditySeconds(config.getAccessTokenValiditySeconds())//令牌有效期
                         .authorizedGrantTypes("refresh_token", "password")
+                        .refreshTokenValiditySeconds(2592000)//refreshToken的有效期
                         .scopes("all");
             }
         }

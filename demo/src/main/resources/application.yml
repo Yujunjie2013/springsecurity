@@ -1,6 +1,7 @@
 org:
   junjie:
     oauth2:
+      storeType: jwt
       clients:
         - clientId: imooc
           clientSecret: imoocsecret
