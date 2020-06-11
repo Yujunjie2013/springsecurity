@@ -7,9 +7,11 @@ import org.junjie.security.core.properties.SecurityProperties;
 import org.junjie.security.core.validate.code.ValidateCodeSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.social.security.SpringSocialConfigurer;
@@ -31,6 +33,13 @@ public class AppResourceServerConfig extends ResourceServerConfigurerAdapter {
     private ValidateCodeSecurityConfig validateCodeSecurityConfig;
     @Autowired
     private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+//    @Override
+//    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+//        resources.authenticationManager(authenticationManager);
+//    }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -58,7 +67,7 @@ public class AppResourceServerConfig extends ResourceServerConfigurerAdapter {
                         securityProperties.getBrowser().getSession().getSessionInvalidUrl() + ".json",
                         securityProperties.getBrowser().getSession().getSessionInvalidUrl() + ".html",
                         securityProperties.getBrowser().getSignOutUrl(),
-                        "/user/regist","/social/signUp")
+                        "/user/regist", "/social/signUp")
                 .permitAll()//表示跳转到登录页面的请求不被拦截
                 .anyRequest()// 所有请求
                 .authenticated()
