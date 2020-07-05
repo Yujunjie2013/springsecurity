@@ -2,6 +2,7 @@ package org.junjie.security.app;
 
 import org.junjie.security.app.authentication.openid.OpenIdAuthenticationSecurityConfig;
 import org.junjie.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import org.junjie.security.core.authorize.AuthorizeConfigManager;
 import org.junjie.security.core.properties.SecurityConstants;
 import org.junjie.security.core.properties.SecurityProperties;
 import org.junjie.security.core.validate.code.ValidateCodeSecurityConfig;
@@ -35,6 +36,8 @@ public class AppResourceServerConfig extends ResourceServerConfigurerAdapter {
     private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private AuthorizeConfigManager authorizeConfigManager;
 
 //    @Override
 //    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -58,21 +61,8 @@ public class AppResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .and()
                 .apply(openIdAuthenticationSecurityConfig)
                 .and()
-                .authorizeRequests() // 授权配置
-                .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
-                        SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM,
-                        securityProperties.getBrowser().getLoginPage(),
-                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
-                        securityProperties.getBrowser().getSignUpUrl(),
-                        securityProperties.getBrowser().getSession().getSessionInvalidUrl() + ".json",
-                        securityProperties.getBrowser().getSession().getSessionInvalidUrl() + ".html",
-                        securityProperties.getBrowser().getSignOutUrl(),
-                        "/user/regist", "/social/signUp")
-                .permitAll()//表示跳转到登录页面的请求不被拦截
-                .anyRequest()// 所有请求
-                .authenticated()
-                .and()
                 .csrf()//CSRF攻击防御关了
                 .disable();//都需要认证
+        authorizeConfigManager.config(http.authorizeRequests());
     }
 }

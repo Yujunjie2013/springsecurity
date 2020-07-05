@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
-import org.junjie.security.app.social.impl.AppSignUpUtils;
+//import org.junjie.security.app.social.impl.AppSignUpUtils;
 import org.junjie.security.core.properties.SecurityProperties;
 import org.junjie.security.demo.dto.User;
 import org.slf4j.Logger;
@@ -29,8 +29,8 @@ public class UserController {
 
     @Autowired
     private ProviderSignInUtils providerSignInUtils;
-    @Autowired
-    private AppSignUpUtils appSignUpUtils;
+//    @Autowired
+//    private AppSignUpUtils appSignUpUtils;
     @Autowired
     private SecurityProperties securityProperties;
 
@@ -71,6 +71,6 @@ public class UserController {
         }
         logger.info("注册用户userId:" + userId);
 //        providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request, response));
-        appSignUpUtils.doPostSignUp(new ServletWebRequest(request, response), userId);
+//        appSignUpUtils.doPostSignUp(new ServletWebRequest(request, response), userId);
     }
 }
