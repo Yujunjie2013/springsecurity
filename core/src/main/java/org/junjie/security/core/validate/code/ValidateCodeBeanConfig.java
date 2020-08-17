@@ -1,8 +1,10 @@
 package org.junjie.security.core.validate.code;
 
+import org.junjie.security.core.properties.SecurityConstants;
 import org.junjie.security.core.properties.SecurityProperties;
 import org.junjie.security.core.validate.code.image.ImageCodeGenerator;
 import org.junjie.security.core.validate.code.sms.DefaultSmsCodeSender;
+import org.junjie.security.core.validate.code.sms.SmsCodeGenerator;
 import org.junjie.security.core.validate.code.sms.SmsCodeSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -23,9 +25,17 @@ public class ValidateCodeBeanConfig {
      * @return
      */
     @Bean
-    @ConditionalOnMissingBean(name = "imageCodeGenerator")
+    @ConditionalOnMissingBean(name = SecurityConstants.IMAGE_CODE_GENERATOR_ID)
     public ValidateCodeGenerator imageCodeGenerator() {
         ImageCodeGenerator imageCodeGenerator = new ImageCodeGenerator();
+        imageCodeGenerator.setSecurityProperties(securityProperties);
+        return imageCodeGenerator;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(name = SecurityConstants.SMS_CODE_GENERATOR_ID)
+    public ValidateCodeGenerator smsCodeGenerator() {
+        SmsCodeGenerator imageCodeGenerator = new SmsCodeGenerator();
         imageCodeGenerator.setSecurityProperties(securityProperties);
         return imageCodeGenerator;
     }

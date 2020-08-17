@@ -1,5 +1,6 @@
 package org.junjie.security.core.authorize;
 
+import org.apache.commons.lang.StringUtils;
 import org.junjie.security.core.properties.SecurityConstants;
 import org.junjie.security.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,17 @@ public class CodeAuthorizeConfigProvider implements AuthorizeConfigProvider {
         config.antMatchers(
                 SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
                 SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM,
-                securityProperties.getBrowser().getLoginPage(),
+                SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE,
+                SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_OPENID,
                 SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
+                securityProperties.getBrowser().getLoginPage(),
                 securityProperties.getBrowser().getSignUpUrl(),
                 securityProperties.getBrowser().getSession().getSessionInvalidUrl() + ".json",
-                securityProperties.getBrowser().getSession().getSessionInvalidUrl() + ".html",
-                securityProperties.getBrowser().getSignOutUrl())
+                securityProperties.getBrowser().getSession().getSessionInvalidUrl() + ".html")
                 .permitAll();
+        if (StringUtils.isNotBlank(securityProperties.getBrowser().getSignOutUrl())) {
+            config.antMatchers(securityProperties.getBrowser().getSignOutUrl()).permitAll();
+        }
         return false;
     }
 }
