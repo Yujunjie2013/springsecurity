@@ -76,7 +76,7 @@ public class AppAuthorizationServerConfig extends AuthorizationServerConfigurerA
                         .withClient(config.getClientId())
                         .secret(passwordEncoder.encode(config.getClientSecret()))//这里一定要这要用
                         .accessTokenValiditySeconds(config.getAccessTokenValiditySeconds())//令牌有效期
-                        .authorizedGrantTypes("refresh_token", "password")
+                        .authorizedGrantTypes("refresh_token", "password","authorization_code")
                         .refreshTokenValiditySeconds(2592000)//refreshToken的有效期
                         .scopes("all");
             }
